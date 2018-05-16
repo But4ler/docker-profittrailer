@@ -5,9 +5,10 @@ APP=/app
 PT="ProfitTrailer"
 
 PT_VERSION=${PT_VERSION:-2.0.5}
+#PT_VERSION=${PT_VERSION}
 
 echo "VERSION DEPLOYER: $PT_VERSION"
-ls $BASE/*.zip
+ls -la $BASE/
 
 PT_DIR=$APP/$PT
 PT_ZIP=$BASE/${PT}-${PT_VERSION}.zip
@@ -29,22 +30,33 @@ PT_START="java $JAVA_OPTS -jar $PT_JAR"
 [ -d "$PT_DIR" ] || mkdir "$PT_DIR" || {
    echo "Error: no $PT_DIR found and could not make it. Exiting."; exit -1;
 }
+
 unzip -oqd $APP $PT_ZIP $PT-${PT_VERSION}/${PT}.jar || {
   echo "Error: no $PT jar found. Exiting."; exit -1;
 }
+
 cd $PT_DIR || {
   echo "Error: problem with $PT_DIR. Exiting."; exit -1;
 }
 
 pcnt=$(/bin/ls -1 $PT_DIR/*.properties 2>/dev/null|/usr/bin/wc -l)
-[[ $pcnt -gt 0 ]] || {
+# Test précédente installation
+if [ $pcnt == 0 ]; then
   echo "No properties found, extracting..."; unzip -o $PT_ZIP -d $APP;
+  mv $APP/$PT-$PT_VERSION/* /app/ProfitTrailer;
+  rm -fr $APP/$PT-$PT_VERSION
   echo "Done! Now, edit your configuration files and reload the container."
   exit -1;
-} || {
-  echo "Error: no properties found and could not properly unzip $PT_ZIP. Exiting.";
-  exit -1;
-}
+
+elif [ -e $PT_JAR ]; then
+  echo "Installation PT version: $PT_VERSION"
+  unzip -o $PT_ZIP -d $APP
+  mv $APP/$PT-$PT_VERSION/${PT}.jar $PT_JAR
+
+else
+  echo "Error: check pliz"
+  ls -la /app/*
+fi
 
 # start it
 $PT_START
