@@ -6,12 +6,33 @@ services:
     volumes:
       - ./bot1:/app/ProfitTrailer
     restart: always
+    environment:
+      - "PT_VERSION=v2.0.2"
+    ports:
+      - "8082:8081/tcp"
+  bot2:
+    build: .
+    volumes:
+      - ./bot2:/app/ProfitTrailer
+    restart: always
     ports:
       - "8081:8081/tcp"
-#  bot2:
-#    build: .
-#    volumes:
-#      - ./bot2:/app/ProfitTrailer
-#    restart: always
-#    ports:
-#      - "8081:8081/tcp"
+  ptmagic:
+    image: trueosiris/ptmagic
+    volumes:
+      - ./bot1:/mnt/profittrailer
+      - ./ptmagic:/mnt/ptmagic
+    restart: always
+    environment:
+      - "TZ=Europe/Paris"
+
+  ptmagic-monitor:
+    image: trueosiris/ptmagic
+    volumes:
+      - ./bot1:/mnt/profittrailer
+      - ./ptmagic:/mnt/ptmagic
+    restart: always
+    environment:
+      - "TZ=Europe/Paris"
+    command:
+      - "./Monitor/Monitor.dll"
