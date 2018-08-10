@@ -5,7 +5,7 @@ APP=/app
 PT="ProfitTrailer"
 
 echo "ENV VERSION DEPLOYER: $PT_VERSION"
-PT_VERSION=${PT_VERSION:-2.1.3}
+PT_VERSION=${PT_VERSION:-2.1.4}
 #PT_VERSION=${PT_VERSION} 
 
 echo "VARS VERSION DEPLOYER: $PT_VERSION"
@@ -58,6 +58,10 @@ else
   echo "Error: check pliz"
   ls -la /app/*
 fi
+
+# Workaround for PTM
+cd $PT_DIR
+ln -s ./data/ProfitTrailerData.json ProfitTrailerData.json
 
 # start it
 $PT_START
