@@ -1,9 +1,22 @@
-FROM alpine:3.7
+FROM openjdk:8-jre-alpine
 
-ARG PTD_VERSION=${PTD_VERSION:-1.11.1}
-ENV PTD_VERSION ${PTD_VERSION}
+#ENV PATH /usr/local/bin:$PATH
 
-RUN apk add --no-cache curl
-RUN curl -SL curl https://github.com/PTDefender/Welcome/archive/1.11.1.tar.gz | tar -zxvf /opt/ptdefender
+ARG PT_VERSION=${PT_VERSION:-2.1.4}
+ENV PT_VERSION ${PT_VERSION}
 
-VOLUME ["/opt/ptdefender"]
+# install tools
+RUN apk add --update wget bash
+
+#ENV PT_DL=https://github.com/taniman/profit-trailer/releases/download/$PT_VERSION/ProfitTrailer-$PT_VERSION.zip
+
+RUN wget https://github.com/taniman/profit-trailer/releases/download/$PT_VERSION/ProfitTrailer-$PT_VERSION.zip -P /opt
+#ADD $PT_DL /opt
+
+COPY entrypoint.sh /
+
+VOLUME ["/app/ProfitTrailer"]
+
+CMD ["/entrypoint.sh"]
+
+EXPOSE 8081
