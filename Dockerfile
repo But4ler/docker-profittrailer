@@ -2,7 +2,7 @@ FROM openjdk:8-jre-alpine
 
 #ENV PATH /usr/local/bin:$PATH
 
-ARG PT_VERSION=${PT_VERSION:-2.1.19}
+ARG PT_VERSION=${PT_VERSION:-2.1.20}
 ENV PT_VERSION ${PT_VERSION}
 
 # install tools
