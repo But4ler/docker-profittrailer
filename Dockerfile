@@ -7,11 +7,7 @@ ENV PT_VERSION ${PT_VERSION}
 
 # install tools
 RUN apk add --update wget bash
-
-#ENV PT_DL=https://github.com/taniman/profit-trailer/releases/download/$PT_VERSION/ProfitTrailer-$PT_VERSION.zip
-
 RUN wget https://github.com/taniman/profit-trailer/releases/download/$PT_VERSION/ProfitTrailer-$PT_VERSION.zip -P /opt
-#ADD $PT_DL /opt
 
 COPY entrypoint.sh /
 
