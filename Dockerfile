@@ -5,7 +5,7 @@
 
 FROM openjdk:8-jre-alpine
 
-ARG PT_VERSION=${PT_VERSION:-2.3.11}
+ARG PT_VERSION=${PT_VERSION:-2.3.12}
 
 ENV PT_FILENAME=ProfitTrailer-${PT_VERSION}.zip
 
