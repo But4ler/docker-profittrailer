@@ -3,7 +3,8 @@
 # build with --build-arg PT_VERSION=2.1.12 to define the version number to build
 #
 
-FROM openjdk:8-jre-alpine
+# FROM openjdk:8-jre-alpine
+FROM openjdk:8-jdk-alpine
 
 ARG PT_VERSION=${PT_VERSION:-2.3.12}
 
